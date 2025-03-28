@@ -17,6 +17,7 @@ const start = async () => {
     try {
         //connect DB
         await connectDB(process.env.MONGO_URI)
+        console.log("Connection to MongoDB successfull...")
         app.listen(port, console.log(`Server is listening on ${host} port ${port}...`))
     } catch (error) {
         console.log(error)
