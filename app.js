@@ -5,6 +5,7 @@ require("dotenv").config();
 const passport = require("passport");
 const passportSetup = require("./config/passport");
 const session = require("express-session");
+const cors = require("cors");
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST;

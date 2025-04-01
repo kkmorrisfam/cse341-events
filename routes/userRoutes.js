@@ -1,15 +1,22 @@
 const router = require("express").Router();
 const passport = require("passport");
 
-
 // user login
 router.get("/login", (req, res) => {
   res.send("<h1>Login Page</h1>");
 });
 
 // user logout
-router.get("/logout", (req, res) => {
-    res.send("<h2>Logout Page</h2>");
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    req.session.destroy((err) => {
+      if (err) return next(err);
+      res.clearCookie("connect.sid");
+      res.send("<h2>Logout Page</h2>"); //visual success for now
+      //res.redirect("/");
+    });
+  });
 });
 
 // user OAuth with Google
@@ -24,12 +31,20 @@ router.get(
 );
 
 // Callback route from google
-router.get("/google/callback", 
-    // take code from google and get profile information
-    passport.authenticate("google"),
-    (req, res)=> {
-       res.send(req.user); 
-    // res.send("<h2>You've reached the callback URI</h2>")
-})
+router.get(
+  "/google/callback",
+  // take code from google and get profile information
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    session: false,
+  }),
+  (req, res) => {
+    //console.log(req.user);
+    // use a route to redirect user after login successful
+    console.log("GitHub login successful:");
+    req.session.user = req.user;
+    res.redirect("/"); //return to home page
+  }
+);
 
 module.exports = router;
