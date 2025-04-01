@@ -19,7 +19,7 @@ router.get(
   passport.authenticate(
     "google",
     //what do we want from google?
-    { scope: ["email", "profile"] }
+    { scope: ["profile"] }
   )
 );
 
@@ -28,7 +28,8 @@ router.get("/google/callback",
     // take code from google and get profile information
     passport.authenticate("google"),
     (req, res)=> {
-    res.send("<h2>Youve reached the callback URI</h2>")
+       res.send(req.user); 
+    // res.send("<h2>You've reached the callback URI</h2>")
 })
 
 module.exports = router;
