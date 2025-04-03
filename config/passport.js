@@ -27,11 +27,11 @@ passport.use(
     // },
     {
       clientID: isProd
-        ? process.env.GITHUB_CLIENT_ID_PROD
-        : process.env.GITHUB_CLIENT_ID_DEV,
+        ? process.env.GOOGLE_CLIENT_ID_PROD
+        : process.env.GOOGLE_CLIENT_ID_DEV,
       clientSecret: isProd
-        ? process.env.GITHUB_CLIENT_SECRET_PROD
-        : process.env.GITHUB_CLIENT_SECRET_DEV,
+        ? process.env.GOOGLE_CLIENT_SECRET_PROD
+        : process.env.GOOGLE_CLIENT_SECRET_DEV,
       callbackURL: process.env.CALLBACK_URL_DEV,
     },
     (req, accessToken, refreshToken, profile, done) => {
