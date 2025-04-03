@@ -4,25 +4,35 @@ const User = require("../models/userModel");
 
 require("dotenv").config();
 
+const isProd = process.env.NODE_ENV === "production";
+
 passport.serializeUser((user, done) => {
   //user is from our database
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {    
-    User.findById(id).then((user)=> {
-        done(null, user);
-    });
+passport.deserializeUser((id, done) => {
+  User.findById(id).then((user) => {
+    done(null, user);
   });
-  
+});
 
 passport.use(
   new GoogleStrategy(
+    // {
+    //   clientID: process.env.GOOGLE_CLIENT_ID_DEV,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET_DEV,
+    //   callbackURL: process.env.CALLBACK_URL_DEV,
+    //   passReqToCallback: true,
+    // },
     {
-      clientID: process.env.GOOGLE_CLIENT_ID_DEV,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET_DEV,
+      clientID: isProd
+        ? process.env.GITHUB_CLIENT_ID_PROD
+        : process.env.GITHUB_CLIENT_ID_DEV,
+      clientSecret: isProd
+        ? process.env.GITHUB_CLIENT_SECRET_PROD
+        : process.env.GITHUB_CLIENT_SECRET_DEV,
       callbackURL: process.env.CALLBACK_URL_DEV,
-      passReqToCallback: true,
     },
     (req, accessToken, refreshToken, profile, done) => {
       // function when returning from Google

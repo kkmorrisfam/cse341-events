@@ -47,4 +47,14 @@ router.get(
   }
 );
 
+//route
+
+//route to register new user
+router.post("/register-user");
+
+// route to post updates to account information and password
+router.put("/update-info");
+
+router.delete("/delete-user");
+
 module.exports = router;
