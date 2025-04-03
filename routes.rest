@@ -1,0 +1,39 @@
+### Get all accounts
+GET http://localhost:3000/tasks
+
+
+//Soon will be updated
+### Get one account (based on id)
+GET http://localhost:3000/accounts
+
+
+### Create new account
+POST http://localhost:3000/accounts/
+Content-Type: application/json
+
+{
+    "username": "playerNine",
+    "password": "passwordNine",
+    "email": "playerNine@gmail.com",
+    "recoveryEmail": "recoveryNine@gmail.com",
+    "birthday": "Sep 09, 2009",
+    "gender": "Male",
+    "accountDate": "Mar 18, 2025"
+}
+
+### Update account (based on id)
+PUT http://localhost:3000/accounts/67d9136593c9514350d1a157
+Content-Type: application/json
+
+{
+    "username": "playerWan",
+    "password": "passwordOne",
+    "email": "playerWan@gmail.com",
+    "recoveryEmail": "recoveryWan@gmail.com",
+    "birthday": "Jan 01, 2001",
+    "gender": "Male",
+    "accountDate": "Mar 18, 2025"
+}
+
+### Delete account (based on id)
+DELETE http://localhost:3000/accounts/67d982553e1705cef01a01d5

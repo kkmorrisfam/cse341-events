@@ -6,4 +6,6 @@ router.get("/", (req, res) => {
   res.send("<h1>Events R Us</h1>");
 });
 
+router.use("/tasks", require("./tasks"));
+
 module.exports = router;

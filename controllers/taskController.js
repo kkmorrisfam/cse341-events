@@ -1,9 +1,9 @@
-const taskModel = require("../models/taskModel");
+const Task = require("../models/taskModel");
 const ObjectId = require('mongodb').ObjectId;
 
 const getAllTasks = async (req, res) => {
     //#swagger.tags=['Task']
-    const response = await taskModel().find();
+    const response = await Task.find();
     response.toArray().then((task) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(accounts);
@@ -13,7 +13,7 @@ const getAllTasks = async (req, res) => {
 const getOneTask = async (req, res) => {
     //#swagger.tags=['Task']
     const taskId = new ObjectId(req.params.id);
-    const response = await taskModel().find({ _id: taskId });
+    const response = await Task.find({ _id: taskId });
     response.toArray().then((task) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(accounts);
@@ -30,7 +30,7 @@ const createTask = async (req, res) => {
         dueDate: req.body.duaDate,
         completed: req.body.completed
     };
-    const response = await taskModel().insertOne(task);
+    const response = await Task.insertOne(task);
     if (response.acknowledged) {
         res.status(201).json(response);
     } else {
@@ -49,7 +49,7 @@ const updateTask = async (req, res) => {
         dueDate: req.body.duaDate,
         completed: req.body.completed
     };
-    const response = await taskModel().replaceOne({ _id: taskId }, task);
+    const response = await Task.replaceOne({ _id: taskId }, task);
     if (response.modifiedCount > 0) {
         res.status(204).send();
     } else {
@@ -60,7 +60,7 @@ const updateTask = async (req, res) => {
 const deleteTask = async (req, res) => {
     //#swagger.tags=['Task']
     const taskId = new ObjectId(req.params.id);
-    const response = await taskModel().deleteOne({ _id: taskId });
+    const response = await Task.deleteOne({ _id: taskId });
     if (response.deletedCount > 0) {
         res.status(204).send();
     } else {
