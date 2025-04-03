@@ -4,20 +4,20 @@ const ObjectId = require('mongodb').ObjectId;
 const getAllTasks = async (req, res) => {
     //#swagger.tags=['Task']
     const response = await Task.find();
-    response.toArray().then((task) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(accounts);
-    });
+    //response.toArray().then((task) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(response);
+    //});
 }
 
 const getOneTask = async (req, res) => {
     //#swagger.tags=['Task']
     const taskId = new ObjectId(req.params.id);
     const response = await Task.find({ _id: taskId });
-    response.toArray().then((task) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(accounts);
-    });
+    //response.toArray().then((task) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(accounts);
+    //});
 }
 
 const createTask = async (req, res) => {
