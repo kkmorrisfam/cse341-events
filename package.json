@@ -17,7 +17,7 @@
     "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
     "mongodb": "^6.15.0",
-    "mongoose": "^8.13.0",
+    "mongoose": "^8.13.1",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
     "swagger": "^0.0.1",
