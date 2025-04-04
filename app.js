@@ -2,13 +2,18 @@ const express = require("express");
 const app = express();
 const connectDB = require("./db/connect");
 require("dotenv").config();
+
 const passport = require("passport");
 const passportSetup = require("./config/passport");
 const session = require("express-session");
 const cors = require("cors");
 
+const bodyParser = require('body-parser');
+
+
 const port = process.env.PORT || 3000;
 const host = process.env.HOST;
+
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -26,6 +31,9 @@ app.use(session({
   
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+app.use(bodyParser.json());
 
 app.use("/", require("./routes"));
 
