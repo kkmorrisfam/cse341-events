@@ -2,14 +2,12 @@ const express = require("express");
 const app = express();
 const connectDB = require("./db/connect")
 require("dotenv").config();
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST;
 
-
-
+app.use(bodyParser.json());
 app.use("/", require("./routes"));
 
 const start = async () => {

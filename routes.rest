@@ -4,36 +4,34 @@ GET http://localhost:3000/tasks
 
 //Soon will be updated
 ### Get one account (based on id)
-GET http://localhost:3000/accounts
+GET http://localhost:3000/tasks/67ef70c01bf6ed248d8f5f2f
 
 
 ### Create new account
-POST http://localhost:3000/accounts/
+POST http://localhost:3000/tasks/
 Content-Type: application/json
 
 {
-    "username": "playerNine",
-    "password": "passwordNine",
-    "email": "playerNine@gmail.com",
-    "recoveryEmail": "recoveryNine@gmail.com",
-    "birthday": "Sep 09, 2009",
-    "gender": "Male",
-    "accountDate": "Mar 18, 2025"
+    "taskName": "Decorations",
+    "taskDescription": "Add flowers and balloons to the venue",
+    "eventId": "wedding41",
+    "organizerId": "565",
+    "dueDate": "May 29, 2025",
+    "completed": "false"
 }
 
 ### Update account (based on id)
-PUT http://localhost:3000/accounts/67d9136593c9514350d1a157
+PUT http://localhost:3000/tasks/67ef70c01bf6ed248d8f5f2f
 Content-Type: application/json
 
 {
-    "username": "playerWan",
-    "password": "passwordOne",
-    "email": "playerWan@gmail.com",
-    "recoveryEmail": "recoveryWan@gmail.com",
-    "birthday": "Jan 01, 2001",
-    "gender": "Male",
-    "accountDate": "Mar 18, 2025"
+    "taskName": "Decorations",
+    "taskDescription": "Add flowers and balloons to the venue",
+    "eventId": "wedding33",
+    "organizerId": "565",
+    "dueDate": "Apr 09, 2025",
+    "completed": "false"
 }
 
 ### Delete account (based on id)
-DELETE http://localhost:3000/accounts/67d982553e1705cef01a01d5
+DELETE http://localhost:3000/tasks/67ef78f644fc173ea750558f

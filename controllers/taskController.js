@@ -16,7 +16,7 @@ const getOneTask = async (req, res) => {
     const response = await Task.find({ _id: taskId });
     //response.toArray().then((task) => {
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(accounts);
+    res.status(200).json(response);
     //});
 }
 
@@ -31,7 +31,7 @@ const createTask = async (req, res) => {
         completed: req.body.completed
     };
     const response = await Task.insertOne(task);
-    if (response.acknowledged) {
+    if (response) {
         res.status(201).json(response);
     } else {
         res.status(500).json(response.error || 'Some error occurred while creating the task.')
@@ -51,7 +51,7 @@ const updateTask = async (req, res) => {
     };
     const response = await Task.replaceOne({ _id: taskId }, task);
     if (response.modifiedCount > 0) {
-        res.status(204).send();
+        res.status(201).json(response);
     } else {
         res.status(500).json(response.error || 'Some error occurred while updating the task.')
     }
