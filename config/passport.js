@@ -32,7 +32,9 @@ passport.use(
       clientSecret: isProd
         ? process.env.GOOGLE_CLIENT_SECRET_PROD
         : process.env.GOOGLE_CLIENT_SECRET_DEV,
-      callbackURL: process.env.CALLBACK_URL_DEV,
+      callbackURL: isProd
+        ? process.env.CALLBACK_URL_PROD
+        : process.env.CALLBACK_URL_DEV,
     },
     (req, accessToken, refreshToken, profile, done) => {
       // function when returning from Google
