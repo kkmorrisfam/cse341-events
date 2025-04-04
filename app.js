@@ -1,24 +1,41 @@
 const express = require("express");
+const bodyParser = require('body-parser');
+const mongodb = require('./db/database');
+const cors = require('cors');
 const app = express();
-const connectDB = require("./db/connect")
 require("dotenv").config();
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST;
-
-
+app.use(bodyParser.json());
+app.use((req, res, next)=>{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Z-Key'
+    );
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS' );
+    next();
+  });
+app.use(cors({methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']}));
+app.use(cors({origin: '*'}));
 
 app.use("/", require("./routes"));
-
-const start = async () => {
-    try {
-        //connect DB
-        await connectDB(process.env.MONGO_URI)
-        console.log("Connection to MongoDB successfull...")
-        app.listen(port, console.log(`Server is listening on ${host} port ${port}...`))
-    } catch (error) {
-        console.log(error)
+app.use((err, req, res, next)=>{
+    res.status(err.status || 500);
+    res.send({
+      error: {
+        status: err.status || 500,
+        message: err.message
+      }
+    });
+  });
+  mongodb.initDb((err)=>{
+    if(err){
+      console.log("There is an error: "+ err);
+    }else{
+      app.listen(port, () => {
+        console.log(`Server is listening on ${host} port ${port}...`);
+      });
     }
-}
-
-start()
+  });
