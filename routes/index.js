@@ -5,6 +5,7 @@ const userRoutes = require("./userRoutes");
 router.get("/", (req, res) => {
   res.send("<h1>Events R Us</h1>");
 });
+router.use('/events', require('./events'));
 
 
 //router for user login/authentication

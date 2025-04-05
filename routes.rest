@@ -34,4 +34,41 @@ Content-Type: application/json
 }
 
 ### Delete account (based on id)
-DELETE http://localhost:3000/tasks/67ef78f644fc173ea750558f
+DELETE http://localhost:3000/tasks/67ef78f644fc173ea750558f###Get all Events
+GET http://localhost:3000/events
+
+###Get Event by Id
+GET http://localhost:3000/events/67f07b591baff3596e42ebfd
+
+###Create Events
+POST http://localhost:3000/events HTTP/1.1
+Content-Type: application/json
+
+{
+    "eventName": "Fashion Fest",
+    "eventDescription": "Casual event",
+    "date": "2026, April, 10",
+    "location":"Fashion mall",
+    "eventStart": "6:00 PM",
+    "eventEnd": "10:00 PM",
+    "organizerId": "12434",
+    "vendorId": "54321"
+}
+
+###PUT Events
+PUT http://localhost:3000/events/67f07badb9d82184119ef578 HTTP/1.1
+Content-Type: application/json
+
+{
+    "eventName": "Claudia's Birthday",
+    "eventDescription": "Birthday Party for 10 years old kid x",
+    "date": "2019, March, 10",
+    "location":"Fantasy Salon",
+    "eventStart": "10:00 AM",
+    "eventEnd": "02:00 PM",
+    "organizerId": "12434",
+    "vendorId": "54321"
+}
+
+### DELETE Events
+DELETE http://localhost:3000/events/67f07badb9d82184119ef578
