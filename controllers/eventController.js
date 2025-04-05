@@ -1,4 +1,4 @@
-const Event = require("../models/events");
+const Event = require("../models/eventModel");
 const ObjectId = require('mongodb').ObjectId;
 const createError = require('http-errors');
 
