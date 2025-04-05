@@ -13,6 +13,6 @@ const eventSchema = new Schema({
     vendorId: String
 });
 
-const event = mongoose.model("event", eventSchema);
+const event = mongoose.model("events", eventSchema);
 
 module.exports = event;

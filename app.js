@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require('body-parser');
-const mongodb = require('./db/database');
+const connectDB = require("./db/connect");
 const cors = require('cors');
 const app = express();
 require("dotenv").config();
@@ -30,12 +30,18 @@ app.use((err, req, res, next)=>{
       }
     });
   });
-  mongodb.initDb((err)=>{
-    if(err){
-      console.log("There is an error: "+ err);
-    }else{
-      app.listen(port, () => {
-        console.log(`Server is listening on ${host} port ${port}...`);
-      });
+  const start = async () => {
+    try {
+      //connect DB
+      await connectDB(process.env.MONGO_URI);
+      console.log("Connection to MongoDB successfull...");
+      app.listen(
+        port,
+        console.log(`Server is listening on ${host} port ${port}...`)
+      );
+    } catch (error) {
+      console.log(error);
     }
-  });
+  };
+  
+  start();
