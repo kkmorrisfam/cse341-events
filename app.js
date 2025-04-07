@@ -5,7 +5,8 @@ const app = express();
 require("dotenv").config();
 
 const passport = require("passport");
-const passportSetup = require("./config/passport");
+//runs passport.js file here and sets the configuration up for passport to use.
+require("./config/passport");
 const session = require("express-session");
 const cors = require("cors");
 
@@ -21,8 +22,11 @@ app.use((req, res, next)=>{
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS' );
     next();
   });
-app.use(cors({methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']}));
-app.use(cors({origin: '*'}));
+  app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
+  }));
+
 const isProd = process.env.NODE_ENV === "production";
 
 
