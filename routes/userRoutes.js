@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
+const { userController } = require("../controllers/userController");
+const isAuthenticated = require("../utils/isAuthenticated");
 
 // user login
 router.get("/login", (req, res) => {
@@ -49,11 +51,15 @@ router.get(
 
 //route
 
-//route to register new user
-router.post("/register-user");
+//route to register new user - also logs in user after registration
+router.post(
+  "/register-user",
+  passport.authenticate("local"),
+  userController.registerUser
+);
 
 // route to post updates to account information and password
-router.put("/update-info");
+router.put("/update-info", isAuthenticated, userController.updateUserInfo);
 
 router.delete("/delete-user");
 

@@ -2,6 +2,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const User = require("../models/userModel");
 
+
 require("dotenv").config();
 
 const isProd = process.env.NODE_ENV === "production";
@@ -18,13 +19,7 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-  new GoogleStrategy(
-    // {
-    //   clientID: process.env.GOOGLE_CLIENT_ID_DEV,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET_DEV,
-    //   callbackURL: process.env.CALLBACK_URL_DEV,
-    //   passReqToCallback: true,
-    // },
+  new GoogleStrategy(    
     {
       clientID: isProd
         ? process.env.GOOGLE_CLIENT_ID_PROD
@@ -63,3 +58,6 @@ passport.use(
     }
   )
 );
+
+//sets up the local strategy with passport-local-mongoose
+passport.use(User.createStrategy());
