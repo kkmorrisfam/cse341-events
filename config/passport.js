@@ -2,7 +2,6 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const User = require("../models/userModel");
 
-
 require("dotenv").config();
 
 const isProd = process.env.NODE_ENV === "production";
@@ -61,3 +60,6 @@ passport.use(
 
 //sets up the local strategy with passport-local-mongoose
 passport.use(User.createStrategy());
+
+//I do not need an export statement here.  By requiring file at beginning of app.js file, the file
+//is read/run to set things up, and then used in passport when passport is called.
