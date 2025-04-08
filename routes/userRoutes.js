@@ -1,24 +1,11 @@
 const router = require("express").Router();
 const passport = require("passport");
-const { userController } = require("../controllers/userController");
+const userController = require("../controllers/userController");
 const isAuthenticated = require("../utils/isAuthenticated");
 
-// user login
+// user login - get the user login page
 router.get("/login", (req, res) => {
   res.send("<h1>Login Page</h1>");
-});
-
-// user logout
-router.get("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) return next(err);
-    req.session.destroy((err) => {
-      if (err) return next(err);
-      res.clearCookie("connect.sid");
-      res.send("<h2>Logout Page</h2>"); //visual success for now
-      //res.redirect("/");
-    });
-  });
 });
 
 // user OAuth with Google
@@ -40,27 +27,33 @@ router.get(
     failureRedirect: "/login",
     session: false,
   }),
-  (req, res) => {
-    //console.log(req.user);
-    // use a route to redirect user after login successful
-    console.log("GitHub login successful:");
-    req.session.user = req.user;
-    res.redirect("/"); //return to home page
-  }
+  userController.googleCallBack
 );
 
-//route
+// user register - get the user register page
+router.get("/register", (req, res) => {
+  res.send("<h1>Register New User Page</h1>");
+});
+
+// get update user page
+// router.get("/update/:id", (req, res) => {
+//   res.send("<h1>Update User Page by Id</h1>");
+// })
+
+// user logout route
+router.get("/logout", userController.userLogout);
+
+
+//route to login locally
+router.post("/login", passport.authenticate("local"), userController.loginUser);
 
 //route to register new user - also logs in user after registration
-router.post(
-  "/register-user",
-  passport.authenticate("local"),
-  userController.registerUser
-);
+router.post("/register-user", userController.registerUser);
 
 // route to post updates to account information and password
 router.put("/update-info", isAuthenticated, userController.updateUserInfo);
 
-router.delete("/delete-user");
+// route to delete a user, checks if user to delete is logged in first
+router.delete("/delete-user", isAuthenticated, userController.deleteUser);
 
 module.exports = router;

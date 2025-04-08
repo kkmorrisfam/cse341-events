@@ -59,7 +59,80 @@ const updateUserInfo = async (req, res) => {
   }
 };
 
+// google callback function after google authenticates user
+const googleCallBack = (req, res, next) => {
+    try {
+      console.log("Google login successful:");
+      // use a route to redirect user after login successful
+      req.session.user = req.user;
+      res.redirect("/");   //return to home page
+    } catch (err) {
+      console.error("Error in Google callback:", err);
+      next(err); 
+    }
+  };
+  
+// user logout
+const userLogout = (req, res, next) => {
+    try {
+        req.logout((err) => {
+        if (err) return next(err);
+        req.session.destroy((err) => {
+            if (err) return next(err);
+            res.clearCookie("connect.sid");
+            res.send("<h2>Logout Page</h2>"); //visual success for now
+            //res.redirect("/");
+            });
+        });
+    } catch (err) {
+        console.error("Error during logout:", err);
+        next(err);
+    }
+};
+
+// Local login after passport authenticates user
+const loginUser = (req, res, next) => {
+    try {
+        res.status(200).json({
+            message: "Login successful",
+            user: req.user,
+        });
+    } catch (err) {
+        console.error("Login error:", err);
+        next(err);
+      }
+};
+
+const deleteUser = async (req, res, next) => {
+    try {
+        //check to see if the current user is logged in as the user
+        if (!req.user) {
+            return res.status(401).json({message: "Unathorized"});
+        }
+
+        //Delete user from the database
+        await User.findByIdAndDelete(req.user._id);
+
+        //Log user out and clear session
+        req.logout((err) => {
+            if (err) return next(err);
+            req.session.destroy((err)=> {
+                if (err) return next(err);
+                res.clearCookie("connect.sid");
+                res.status(200).json({message: "User deleted successfully"});
+            });
+        });
+    } catch(err) {
+        console.log("Error deleting user:", err);
+        next(err); //returns to middleware in app.js
+    };
+};
+
 module.exports = {
   registerUser,
   updateUserInfo,
+  userLogout,
+  googleCallBack,
+  loginUser,
+  deleteUser
 };
