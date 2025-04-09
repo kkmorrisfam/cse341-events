@@ -2,11 +2,12 @@ const router = require("express").Router();
 const passport = require("passport");
 const userController = require("../controllers/userController");
 const isAuthenticated = require("../utils/isAuthenticated");
+const validate = require("../utils/userValidations");
 
 // user login - get the user login page
-router.get("/login", (req, res) => {
-  res.send("<h1>Login Page</h1>");
-});
+// router.get("/login", (req, res) => {
+//   res.send("<h1>Login Page</h1>");
+// });
 
 // user OAuth with Google
 router.get(
@@ -31,9 +32,9 @@ router.get(
 );
 
 // user register - get the user register page
-router.get("/register", (req, res) => {
-  res.send("<h1>Register New User Page</h1>");
-});
+// router.get("/register", (req, res) => {
+//   res.send("<h1>Register New User Page</h1>");
+// });
 
 // get update user page
 // router.get("/update/:id", (req, res) => {
@@ -43,17 +44,27 @@ router.get("/register", (req, res) => {
 // user logout route
 router.get("/logout", userController.userLogout);
 
-
-//route to login locally
+//route to login locally - uses passport to authenticate
 router.post("/login", passport.authenticate("local"), userController.loginUser);
 
-//route to register new user - also logs in user after registration
-router.post("/register-user", userController.registerUser);
+//route to register new user locally - also logs in user after registration
+router.post(
+  "/register-user",
+  validate.addLocalUserRules(),
+  validate.checkValidationErrors,
+  userController.registerUser
+);
 
 // route to post updates to account information and password
-router.put("/update-info", isAuthenticated, userController.updateUserInfo);
+router.put(
+  "/update-info/:id",
+  validate.addLocalUserRules(),
+  validate.checkValidationErrors,
+  isAuthenticated,
+  userController.updateUserInfo
+);
 
 // route to delete a user, checks if user to delete is logged in first
-router.delete("/delete-user", isAuthenticated, userController.deleteUser);
+router.delete("/delete-user/:id", isAuthenticated, userController.deleteUser);
 
 module.exports = router;
