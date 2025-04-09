@@ -131,7 +131,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
+          }, 
           {
             "name": "body",
             "in": "body",
@@ -205,14 +205,39 @@
         }
       },
       "post": {
-        "description": "",
+        "description": "Login a local user",
+        "parameters": [
+          {
+            "name": "body",
+            "in" : "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "mickeymouse"
+                },
+                "password": {
+                  "type":"string",
+                  "example": "example1234!"
+                }
+              },
+              "required": ["username", "password"]
+            }
+        }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK - User logged in successfully"
+          },
+          "401": {
+            "description":"Unauthorized"
           }
         }
       }
     },
+    
     "/user/google": {
       "get": {
         "description": "",
@@ -264,22 +289,22 @@
               "type": "object",
               "properties": {
                 "username": {
-                  "example": "any"
+                  "example": "mickeymouse"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "example1234!"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "any@gmail.com"
                 },
-                "firstName": {
-                  "example": "any"
+                "firstname": {
+                  "example": "mickey"
                 },
-                "lastName": {
-                  "example": "any"
+                "lastname": {
+                  "example": "mouse"
                 },
                 "phone": {
-                  "example": "any"
+                  "example": "707-465-6000"
                 }
               }
             }
@@ -315,22 +340,22 @@
               "type": "object",
               "properties": {
                 "firstName": {
-                  "example": "any"
+                  "example": "donald"
                 },
                 "lastName": {
-                  "example": "any"
+                  "example": "duck"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "duck@disney.com"
                 },
                 "phone": {
-                  "example": "any"
+                  "example": "803-565-8000"
                 },
                 "currentPassword": {
-                  "example": "any"
+                  "example": "example1234!"
                 },
                 "newPassword": {
-                  "example": "any"
+                  "example": "example5678!"
                 }
               }
             }
