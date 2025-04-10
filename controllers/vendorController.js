@@ -29,6 +29,12 @@ const createVendor = async (req, res) => {
 try {
   const vendor = {
     vendorName: req.body.vendorName,
+    vendorCategory: req.body.vendorCategory,
+    contactName: req.body.contactName,
+    contactEmail: req.body.contactEmail,
+    contactPhone: req.body.contactPhone,
+    website: req.body.website,
+    rating: req.body.rating,
   };
 
   const response = await Vendor.insertOne(vendor);
@@ -45,7 +51,13 @@ try {
 const updateVendor = async (req, res) => {
   //#swagger.tags=['Vendor']
   const vendor = {
-    vendorName: req.body.taskName,
+    vendorName: req.body.vendorName,
+    vendorCategory: req.body.vendorCategory,
+    contactName: req.body.contactName,
+    contactEmail: req.body.contactEmail,
+    contactPhone: req.body.contactPhone,
+    website: req.body.website,
+    rating: req.body.rating,
   };
 
   const response = await Vendor.replaceOne({ _id: vendorId }, vendor);
@@ -65,6 +77,7 @@ const updateVendor = async (req, res) => {
 const deleteVendor = async (req, res) => {
   //#swagger.tags=['Vendor']
 try {
+  const vendorId = new ObjectId(req.params.id);
   response = await Vendor.deleteOne({ _id: vendorId });
   if (response.deletedCount > 0) {
     res.status(200).send("Vendor deleted");

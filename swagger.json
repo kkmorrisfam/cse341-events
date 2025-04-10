@@ -238,7 +238,7 @@
     "/tasks/": {
       "get": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "produces": [
@@ -247,12 +247,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
       "post": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "parameters": [
@@ -297,7 +300,7 @@
     "/tasks/{id}": {
       "get": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "produces": [
@@ -314,12 +317,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
       "put": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "parameters": [
@@ -368,7 +374,7 @@
       },
       "delete": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "parameters": [
@@ -382,6 +388,166 @@
         "responses": {
           "204": {
             "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/vendor/": {
+      "get": {
+        "tags": [
+          "Vendor"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Vendor"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "vendorName": {
+                  "example": "any"
+                },
+                "vendorCategory": {
+                  "example": "any"
+                },
+                "contactName": {
+                  "example": "any"
+                },
+                "contactEmail": {
+                  "example": "any"
+                },
+                "contactPhone": {
+                  "example": "any"
+                },
+                "website": {
+                  "example": "any"
+                },
+                "rating": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/vendor/{id}": {
+      "get": {
+        "tags": [
+          "Vendor"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Vendor"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "vendorName": {
+                  "example": "any"
+                },
+                "vendorCategory": {
+                  "example": "any"
+                },
+                "contactName": {
+                  "example": "any"
+                },
+                "contactEmail": {
+                  "example": "any"
+                },
+                "contactPhone": {
+                  "example": "any"
+                },
+                "website": {
+                  "example": "any"
+                },
+                "rating": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Vendor"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"

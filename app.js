@@ -25,6 +25,7 @@ app.use(cors({methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']}));
 app.use(cors({origin: '*'}));
 const isProd = process.env.NODE_ENV === "production";
 
+
 //this process happens after user is logged in
 app.use(session({
     secret: process.env.SESSION_SECRET,
