@@ -55,15 +55,15 @@ validate.updateUserRules = () => {
   //username, firstname, lastname, phone, email
   return [
     // firstname is optional on update
-    check("userName").optional().trim().escape().notEmpty(),
-    check("firstName")
+    check("username").optional().trim().escape().notEmpty(),
+    check("firstname")
       .optional()
       .trim()
       .escape()
       .isLength({ min: 2 })
       .withMessage("First name can't be empty if updating."), //on error this message is sent
     //lastname is optional on update
-    check("lastName")
+    check("lastname")
       .optional()
       .trim()
       .escape()
