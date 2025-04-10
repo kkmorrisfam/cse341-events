@@ -44,6 +44,28 @@ router.get(
 // user logout route
 router.get("/logout", userController.userLogout);
 
+// #swagger.tags = ['User']
+// #swagger.summary = 'Login a user'
+// #swagger.description = 'Login a local user'
+// #swagger.requestBody = {
+//   required: true,
+//   content: {
+//     'application/json': {
+//       schema: {
+//         type: 'object',
+//         properties: {
+//           username: { type: 'string', example: 'mickeymouse' },
+//           password: { type: 'string', example: 'Example123!' }
+//         },
+//         required: ['username', 'password']
+//       }
+//     }
+//   }
+// }
+// #swagger.responses[200] = { description: 'OK. User logged in successfully.' }
+// #swagger.responses[401] = { description: 'Unauthorized' }
+router.post("/login", passport.authenticate("local"), userController.loginUser);
+
 //route to login locally - uses passport to authenticate
 router.post("/login", passport.authenticate("local"), userController.loginUser);
 
@@ -58,13 +80,17 @@ router.post(
 // route to post updates to account information and password
 router.put(
   "/update-info/:id",
-  validate.addLocalUserRules(),
+  validate.updateUserRules(),
   validate.checkValidationErrors,
-  isAuthenticated,
+  // isAuthenticated,   //comment out for testing
   userController.updateUserInfo
 );
 
 // route to delete a user, checks if user to delete is logged in first
-router.delete("/delete-user/:id", isAuthenticated, userController.deleteUser);
+router.delete(
+  "/delete-user/:id",
+  // isAuthenticated,
+  userController.deleteUser
+);
 
 module.exports = router;

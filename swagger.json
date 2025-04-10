@@ -131,7 +131,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          }, 
+          },
           {
             "name": "body",
             "in": "body",
@@ -195,49 +195,6 @@
         }
       }
     },
-    "/user/login": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "description": "Login a local user",
-        "parameters": [
-          {
-            "name": "body",
-            "in" : "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string",
-                  "example": "mickeymouse"
-                },
-                "password": {
-                  "type":"string",
-                  "example": "example1234!"
-                }
-              },
-              "required": ["username", "password"]
-            }
-        }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK - User logged in successfully"
-          },
-          "401": {
-            "description":"Unauthorized"
-          }
-        }
-      }
-    },
-    
     "/user/google": {
       "get": {
         "description": "",
@@ -258,7 +215,7 @@
         }
       }
     },
-    "/user/register": {
+    "/user/logout": {
       "get": {
         "description": "",
         "responses": {
@@ -268,8 +225,8 @@
         }
       }
     },
-    "/user/logout": {
-      "get": {
+    "/user/login": {
+      "post": {
         "description": "",
         "responses": {
           "200": {
@@ -289,22 +246,22 @@
               "type": "object",
               "properties": {
                 "username": {
-                  "example": "mickeymouse"
+                  "example": "any"
                 },
                 "password": {
-                  "example": "example1234!"
+                  "example": "any"
                 },
                 "email": {
-                  "example": "any@gmail.com"
+                  "example": "any"
                 },
                 "firstname": {
-                  "example": "mickey"
+                  "example": "any"
                 },
                 "lastname": {
-                  "example": "mouse"
+                  "example": "any"
                 },
                 "phone": {
-                  "example": "707-465-6000"
+                  "example": "any"
                 }
               }
             }
@@ -339,23 +296,23 @@
             "schema": {
               "type": "object",
               "properties": {
-                "firstName": {
-                  "example": "donald"
+                "firstname": {
+                  "example": "any"
                 },
-                "lastName": {
-                  "example": "duck"
+                "lastname": {
+                  "example": "any"
                 },
                 "email": {
-                  "example": "duck@disney.com"
+                  "example": "any"
                 },
                 "phone": {
-                  "example": "803-565-8000"
+                  "example": "any"
                 },
                 "currentPassword": {
-                  "example": "example1234!"
+                  "example": "any"
                 },
                 "newPassword": {
-                  "example": "example5678!"
+                  "example": "any"
                 }
               }
             }
@@ -401,7 +358,7 @@
     "/tasks/": {
       "get": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "produces": [
@@ -410,12 +367,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
       "post": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "parameters": [
@@ -460,7 +420,7 @@
     "/tasks/{id}": {
       "get": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "produces": [
@@ -477,12 +437,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
       "put": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "parameters": [
@@ -531,7 +494,7 @@
       },
       "delete": {
         "tags": [
-          "Task"
+          "Tasks"
         ],
         "description": "",
         "parameters": [

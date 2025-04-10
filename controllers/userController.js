@@ -2,9 +2,9 @@ const passport = require("passport");
 const User = require("../models/userModel");
 
 const registerUser = async (req, res) => {
-  const { username, password, email, firstName, lastName, phone } = req.body;
+  const { username, password, email, firstname, lastname, phone } = req.body;
   try {
-    const newUser = new User({ username, email, firstName, lastName, phone });
+    const newUser = new User({ username, email, firstname, lastname, phone });
     //update the database with User.register()
     const registeredUser = await User.register(newUser, password);
 
@@ -16,6 +16,7 @@ const registerUser = async (req, res) => {
     });
   } catch (err) {
     //passport-local-mongoose has default error messages
+
     res.status(400).json({ error: err.message });
   }
 };
@@ -23,7 +24,7 @@ const registerUser = async (req, res) => {
 // Update user info and/or password
 const updateUserInfo = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, currentPassword, newPassword } =
+    const { firstname, lastname, email, phone, currentPassword, newPassword } =
       req.body;
 
     const userId = req.params.id;
@@ -33,8 +34,8 @@ const updateUserInfo = async (req, res) => {
     if (!user) return res.status(401).json({ message: "User not found." });
 
     // Update basic fields
-    if (firstName) user.firstName = firstName;
-    if (lastName) user.lastName = lastName;
+    if (firstname) user.firstname = firstname;
+    if (lastname) user.lastname = lastname;
     if (email) user.email = email;
     if (phone) user.phone = phone;
 
