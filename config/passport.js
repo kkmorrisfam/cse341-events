@@ -43,8 +43,8 @@ passport.use(
           new User({
             username: profile.displayName,
             googleId: profile.id,
-            firstName: profile.given_name,
-            lastName: profile.last_name,
+            firstname: profile.given_name,
+            lastname: profile.last_name,
             email: profile.email,
           })
             .save()

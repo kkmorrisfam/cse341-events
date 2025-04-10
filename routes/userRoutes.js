@@ -70,6 +70,32 @@ router.post("/login", passport.authenticate("local"), userController.loginUser);
 router.post("/login", passport.authenticate("local"), userController.loginUser);
 
 //route to register new user locally - also logs in user after registration
+
+// #swagger.tags = ['User']
+// #swagger.summary = 'Register a new user'
+// #swagger.description = 'Creates a new user and logs them in immediately.'
+// #swagger.requestBody = {
+//   required: true,
+//   content: {
+//     'application/json': {
+//       schema: {
+//         type: 'object',
+//         properties: {
+//           username: { type: 'string', example: 'mickeymouse' },
+//           password: { type: 'string', example: 'Example123!' },
+//           firstname: { type: 'string', example: 'Mickey' },
+//           lastname: { type: 'string', example: 'Mouse' },
+//           email: { type: 'string', example: 'mickey@disney.com' },
+//           phone: { type: 'string', example: '707-555-5555' }
+//         },
+//         required: ['username', 'password', 'firstname', 'lastname', 'email', 'phone']
+//       }
+//     }
+//   }
+// }
+// #swagger.responses[200] = { description: 'User registered and logged in' }
+// #swagger.responses[400] = { description: 'Validation or registration error' }
+// #swagger.responses[500] = { description: 'Server error' }
 router.post(
   "/register-user",
   validate.addLocalUserRules(),
@@ -78,12 +104,44 @@ router.post(
 );
 
 // route to post updates to account information and password
+
+// #swagger.tags = ['User']
+// #swagger.summary = 'Update user information'
+// #swagger.description = 'Updates a user\'s personal information or password. Only fields included in the request will be updated.'
+// #swagger.parameters['id'] = {
+//   in: 'path',
+//   description: 'User ID',
+//   required: true,
+//   type: 'string'
+// }
+// #swagger.requestBody = {
+//   required: true,
+//   content: {
+//     'application/json': {
+//       schema: {
+//         type: 'object',
+//         properties: {
+//           firstname: { type: 'string', example: 'Donald' },
+//           lastname: { type: 'string', example: 'Duck' },
+//           email: { type: 'string', example: 'donald@disney.com' },
+//           phone: { type: 'string', example: '707-555-0000' },
+//           currentPassword: { type: 'string', example: 'Example123!' },
+//           newPassword: { type: 'string', example: 'BeExample123!' }
+//         }
+//       }
+//     }
+//   }
+// }
+// #swagger.responses[200] = { description: 'Account information updated' }
+// #swagger.responses[400] = { description: 'Validation error or password change failed' }
+// #swagger.responses[401] = { description: 'Unauthorized' }
+// #swagger.responses[500] = { description: 'Internal server error' }
 router.put(
   "/update-info/:id",
   validate.updateUserRules(),
   validate.checkValidationErrors,
-  // isAuthenticated,   //comment out for testing
-  userController.updateUserInfo
+  isAuthenticated,   //comment out for testing
+  //   userController.updateUserInfo
 );
 
 // route to delete a user, checks if user to delete is logged in first
