@@ -140,8 +140,8 @@ router.put(
   "/update-info/:id",
   validate.updateUserRules(),
   validate.checkValidationErrors,
-  isAuthenticated,   //comment out for testing
-  //   userController.updateUserInfo
+  isAuthenticated, //comment out for testing
+  userController.updateUserInfo
 );
 
 // route to delete a user, checks if user to delete is logged in first
