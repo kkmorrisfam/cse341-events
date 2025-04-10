@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const eventController = require('../controllers/eventController');
 const {createValidationRules, validation} = require('../utils/eventValidations');
-//const validation = require('../middleware/validate');
+// const validation = require('../middleware/validate');
 //const { isAuthenticated } = require('../middleware/authenticate');
 
 router.get('/', eventController.getAll);
