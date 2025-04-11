@@ -18,13 +18,7 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-  new GoogleStrategy(
-    // {
-    //   clientID: process.env.GOOGLE_CLIENT_ID_DEV,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET_DEV,
-    //   callbackURL: process.env.CALLBACK_URL_DEV,
-    //   passReqToCallback: true,
-    // },
+  new GoogleStrategy(    
     {
       clientID: isProd
         ? process.env.GOOGLE_CLIENT_ID_PROD
@@ -49,8 +43,8 @@ passport.use(
           new User({
             username: profile.displayName,
             googleId: profile.id,
-            firstName: profile.given_name,
-            lastName: profile.last_name,
+            firstname: profile.given_name,
+            lastname: profile.last_name,
             email: profile.email,
           })
             .save()
@@ -63,3 +57,9 @@ passport.use(
     }
   )
 );
+
+//sets up the local strategy with passport-local-mongoose
+passport.use(User.createStrategy());
+
+//I do not need an export statement here.  By requiring file at beginning of app.js file, the file
+//is read/run to set things up, and then used in passport when passport is called.
