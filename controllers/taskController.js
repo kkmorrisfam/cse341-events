@@ -40,7 +40,7 @@ const createTask = async (req, res) => {
             taskDescription: req.body.taskDescription,
             eventId: req.body.eventId,
             organizerId: req.body.organizerId,
-            dueDate: req.body.duaDate,
+            dueDate: req.body.dueDate,
             completed: req.body.completed
         };
         const response = await Task.insertOne(task);
@@ -63,7 +63,7 @@ const updateTask = async (req, res) => {
             taskDescription: req.body.taskDescription,
             eventId: req.body.eventId,
             organizerId: req.body.organizerId,
-            dueDate: req.body.duaDate,
+            dueDate: req.body.dueDate,
             completed: req.body.completed
         };
         const response = await Task.replaceOne({ _id: taskId }, task);
@@ -92,10 +92,26 @@ const deleteTask = async (req, res) => {
     };
 };
 
+const deleteManyTasks = async (req, res) => {
+    //#swagger.tags=['Tasks']
+    try {
+        const name = req.params.name;
+        const response = await Task.deleteMany({ taskName: name });
+        if (response.deletedCount > 0) {
+            res.status(201).json(response);
+        } else {
+            res.status(500).json(response.error || 'Some error occurred while deleting the task.')
+        }
+    } catch (err) {
+        console.log(err);
+    };
+};
+
 module.exports = {
     getAllTasks,
     getOneTask,
     createTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    deleteManyTasks
 };
