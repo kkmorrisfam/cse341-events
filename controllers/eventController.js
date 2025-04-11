@@ -22,15 +22,16 @@ const getSingle = async (req, res, next)=>{
     //#swagger.tags=['Events']
     try {
         const eventId = ObjectId.createFromHexString(req.params.id);
-        const result = await Event.find({ _id: eventId });
+        const result = await Event.findOne({ _id: eventId });
 
         if(result.length === 0){
             throw createError(404,"Event doesn't exist");
         }
 
-        res.setHeader('Content-Type', 'application/json');
+       // res.setHeader('Content-Type', 'application/json');
         res.status(200).json(result);
     } catch (error) {
+        console.log("ERROR:", error);
         next(error);
     }
 };
