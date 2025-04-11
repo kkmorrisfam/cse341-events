@@ -1,6 +1,30 @@
 const passport = require("passport");
 const User = require("../models/userModel");
 
+const getUser = async (req, res) => {
+  try {
+    const result = await User.findOne({_id: req.params.id});
+    if (!result) { 
+      return res.status(404).json({message: "User not found"});
+    }
+    res.status(200).json(result);
+  } catch(error) {
+    console.error("Error fetching user: ", error);
+    res.status(400).json({message: "Server error getting user."});
+  }
+};
+
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch(error) {
+    console.error("Error fetching all users: ", error);
+    res.status(400).json({message: "Server error while fetching all users."});
+  }
+}
+
 const registerUser = async (req, res) => {
   const { username, password, email, firstname, lastname, phone } = req.body;
   try {
@@ -134,6 +158,8 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
+  getUser,
+  getAllUsers,
   registerUser,
   updateUserInfo,
   userLogout,

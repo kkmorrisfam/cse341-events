@@ -16,7 +16,7 @@ router.get(
   passport.authenticate(
     "google",
     //what do we want from google?
-    { scope: ["profile"] }
+    { scope: ["email", "profile"] }
   )
 );
 
@@ -31,15 +31,11 @@ router.get(
   userController.googleCallBack
 );
 
-// user register - get the user register page
-// router.get("/register", (req, res) => {
-//   res.send("<h1>Register New User Page</h1>");
-// });
+// get one user
+router.get("/:id", isAuthenticated, userController.getUser);
 
-// get update user page
-// router.get("/update/:id", (req, res) => {
-//   res.send("<h1>Update User Page by Id</h1>");
-// })
+// get all users
+router.get("/", isAuthenticated, userController.getAllUsers);
 
 // user logout route
 router.get("/logout", userController.userLogout);
