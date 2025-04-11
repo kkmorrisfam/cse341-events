@@ -18,7 +18,7 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-  new GoogleStrategy(    
+  new GoogleStrategy(
     {
       clientID: isProd
         ? process.env.GOOGLE_CLIENT_ID_PROD
@@ -44,7 +44,7 @@ passport.use(
             username: profile.displayName,
             googleId: profile.id,
             firstname: profile.given_name,
-            lastname: profile.last_name,
+            lastname: profile.family_name,
             email: profile.email,
           })
             .save()
