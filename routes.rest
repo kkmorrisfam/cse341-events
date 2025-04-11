@@ -4,7 +4,7 @@ GET http://localhost:3000/tasks
 
 //Soon will be updated
 ### Get one Task (based on id)
-GET http://localhost:3000/tasks/67f3fce38ea243f79f3550b9
+GET http://localhost:3000/tasks/67f650618aeb24ff8dbb3338
 
 
 ### Create new Task
@@ -13,28 +13,32 @@ Content-Type: application/json
 
 {
     "taskName": "Food",
-    "taskDescription": "10 meals with 6 meat and 4 vegetarians",
-    "eventId": "birthday11",
+    "taskDescription": "5 meats, 3 vegetables, 1 mixed and, 1 dessert",
+    "eventId": "wedding76",
     "organizerId": "566",
-    "dueDate": "June 4, 2025",
+    "dueDate": "2025-06-15",
     "completed": "false"
+   
 }
 
 ### Update task (based on id)
-PUT http://localhost:3000/tasks/67f3fce38ea243f79f3550b9
+PUT http://localhost:3000/tasks/67f64219f7e9899a8605cda5
 Content-Type: application/json
 
 {
-    "taskName": "Food",
+    "taskName": "g",
     "taskDescription": "10 meals with 7 meat and 3 vegetarians",
     "eventId": "birthday11",
     "organizerId": "566",
     "dueDate": "June 4, 2025",
-    "completed": "false"
+    "completed": "true"
 }
 
 ### Delete task (based on id)
-DELETE http://localhost:3000/tasks/67ef70c01bf6ed248d8f5f2f
+DELETE http://localhost:3000/tasks/67f653a16965167424a3eceb
+
+### Delete many tasks (based on taskName)
+DELETE http://localhost:3000/tasks/taskName/Food
 __________________________________________________________________________________________
 ###Get all Events
 GET http://localhost:3000/events
