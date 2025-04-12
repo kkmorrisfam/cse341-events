@@ -91,10 +91,16 @@ const updateUserInfo = async (req, res) => {
 // google callback function after google authenticates user
 const googleCallBack = (req, res, next) => {
   try {
-    console.log("Google login successful:");
-    // use a route to redirect user after login successful
-    req.session.user = req.user;
-    res.redirect("/"); //return to home page
+    req.login(req.user, (err) => {
+      if (err) {
+        console.error("Error logging in user: ", err);
+        return next(err);
+      }
+      // req.session.user = req.user;
+      console.log("Google login successful:");
+      // use a route to redirect user after login successful
+      res.redirect("/"); //return to home page
+    })
   } catch (err) {
     console.error("Error in Google callback:", err);
     next(err);

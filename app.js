@@ -8,6 +8,7 @@ const passport = require("passport");
 //runs passport.js file here and sets the configuration up for passport to use.
 require("./config/passport");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const cors = require("cors");
 
 const port = process.env.PORT || 3000;
@@ -40,10 +41,15 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: !isProd,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      connectionName: "sessions"
+    }),
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: isProd,
       httpOnly: true,
       sameSite: isProd ? "lax" : "strict",
+      maxAge: 1000 * 60 * 60 * 24  // expires 24 hours
     },
   })
 );
