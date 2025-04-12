@@ -6,6 +6,9 @@ const validate = require("../utils/userValidations");
 
 //test route
 router.get("/check-auth", (req, res) => {
+  console.log("SESSION:", req.session);
+  console.log("COOKIE:", req.headers.cookie);
+  console.log("AUTHENTICATED:", req.isAuthenticated());
   res.json({
     authenticated: req.isAuthenticated(),
     user: req.user,
@@ -39,14 +42,15 @@ router.get(
   userController.googleCallBack
 );
 
-// get one user
-router.get("/:id", isAuthenticated, userController.getUser);
 
 // get all users
 router.get("/", isAuthenticated, userController.getAllUsers);
 
 // user logout route
 router.get("/logout", userController.userLogout);
+
+// get one user
+router.get("/:id", isAuthenticated, userController.getUser);
 
 router.post("/login", passport.authenticate("local"), userController.loginUser);
 
@@ -77,7 +81,5 @@ router.delete(
   isAuthenticated,
   userController.deleteUser
 );
-
-
 
 module.exports = router;

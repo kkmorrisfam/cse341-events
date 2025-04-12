@@ -97,7 +97,7 @@ const googleCallBack = (req, res, next) => {
         return next(err);
       }
       // req.session.user = req.user;
-      console.log("Google login successful:");
+      console.log("Google login successful: ", req.user.id);
       // use a route to redirect user after login successful
       res.redirect("/"); //return to home page
     })
@@ -115,8 +115,7 @@ const userLogout = (req, res, next) => {
       req.session.destroy((err) => {
         if (err) return next(err);
         res.clearCookie("connect.sid");
-        res.send("<h2>Logout Page</h2>"); //visual success for now
-        //res.redirect("/");
+        res.status(200).json({message: "Logged out successfully."})
       });
     });
   } catch (err) {
