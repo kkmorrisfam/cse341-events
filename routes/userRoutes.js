@@ -1,23 +1,24 @@
 const router = require("express").Router();
 const passport = require("passport");
+const userController = require("../controllers/userController");
+const isAuthenticated = require("../utils/isAuthenticated");
+const validate = require("../utils/userValidations");
 
-// user login
-router.get("/login", (req, res) => {
-  res.send("<h1>Login Page</h1>");
-});
+//test route
+// router.get("/check-auth", (req, res) => {
+//   console.log("SESSION:", req.session);
+//   console.log("COOKIE:", req.headers.cookie);
+//   console.log("AUTHENTICATED:", req.isAuthenticated());
+//   res.json({
+//     authenticated: req.isAuthenticated(),
+//     user: req.user,
+//   });
+// });
 
-// user logout
-router.get("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) return next(err);
-    req.session.destroy((err) => {
-      if (err) return next(err);
-      res.clearCookie("connect.sid");
-      res.send("<h2>Logout Page</h2>"); //visual success for now
-      //res.redirect("/");
-    });
-  });
-});
+// user login - get the user login page
+// router.get("/login", (req, res) => {
+//   res.send("<h1>Login Page</h1>");
+// });
 
 // user OAuth with Google
 router.get(
@@ -26,7 +27,7 @@ router.get(
   passport.authenticate(
     "google",
     //what do we want from google?
-    { scope: ["profile"] }
+    { scope: ["email", "profile"] }
   )
 );
 
@@ -36,25 +37,44 @@ router.get(
   // take code from google and get profile information
   passport.authenticate("google", {
     failureRedirect: "/login",
-    session: false,
+    // session: false,   // while false, isAuthenticated won't work correctly
   }),
-  (req, res) => {
-    //console.log(req.user);
-    // use a route to redirect user after login successful
-    console.log("GitHub login successful:");
-    req.session.user = req.user;
-    res.redirect("/"); //return to home page
-  }
+  userController.googleCallBack
 );
 
-//route
+// get all users
+router.get("/", isAuthenticated, userController.getAllUsers);
 
-//route to register new user
-router.post("/register-user");
+// user logout route
+router.get("/logout", userController.userLogout);
+
+// get one user
+router.get("/:id", isAuthenticated, userController.getUser);
+
+router.post("/login", passport.authenticate("local"), userController.loginUser);
+
+//route to login locally - uses passport to authenticate
+router.post("/login", passport.authenticate("local"), userController.loginUser);
+
+//route to register new user locally - also logs in user after registration
+router.post(
+  "/register-user",
+  validate.addLocalUserRules(),
+  validate.checkValidationErrors,
+  userController.registerUser
+);
 
 // route to post updates to account information and password
-router.put("/update-info");
 
-router.delete("/delete-user");
+router.put(
+  "/update-info/:id",
+  validate.updateUserRules(),
+  validate.checkValidationErrors,
+  isAuthenticated, //comment out for testing
+  userController.updateUserInfo
+);
+
+// route to delete a user, checks if user to delete is logged in first
+router.delete("/delete-user/:id", isAuthenticated, userController.deleteUser);
 
 module.exports = router;

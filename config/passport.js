@@ -8,23 +8,23 @@ const isProd = process.env.NODE_ENV === "production";
 
 passport.serializeUser((user, done) => {
   //user is from our database
+  console.log("serializeUser: ", user.id);
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
+  console.log("deserializeUser: looking for", id);
   User.findById(id).then((user) => {
+    console.log("deserializeUser: found", user ? user.id : "none");
     done(null, user);
+  }).catch(err => {
+    console.error("deserializeUser error: ", err);
+    done(err);
   });
 });
 
 passport.use(
   new GoogleStrategy(
-    // {
-    //   clientID: process.env.GOOGLE_CLIENT_ID_DEV,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET_DEV,
-    //   callbackURL: process.env.CALLBACK_URL_DEV,
-    //   passReqToCallback: true,
-    // },
     {
       clientID: isProd
         ? process.env.GOOGLE_CLIENT_ID_PROD
@@ -49,8 +49,8 @@ passport.use(
           new User({
             username: profile.displayName,
             googleId: profile.id,
-            firstName: profile.given_name,
-            lastName: profile.last_name,
+            firstname: profile.given_name,
+            lastname: profile.family_name,
             email: profile.email,
           })
             .save()
@@ -63,3 +63,9 @@ passport.use(
     }
   )
 );
+
+//sets up the local strategy with passport-local-mongoose
+passport.use(User.createStrategy());
+
+//I do not need an export statement here.  By requiring file at beginning of app.js file, the file
+//is read/run to set things up, and then used in passport when passport is called.

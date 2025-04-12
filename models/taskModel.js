@@ -11,7 +11,30 @@ const taskSchema = new Schema({
     eventId: String,
     organizerId: String,
     dueDate: String,
-    completed: String
+    completed: Boolean    /*taskName: {
+        type: String,
+        required: [true, "taskName is required."],
+        minLength: [4, "taskName must be at least 4 characters."]
+    },
+    taskDescription: {
+        type: String
+    },
+    eventId: {
+        type: String,
+        required: [true, "eventId is required."]
+    },
+    organizerId: {
+        type: String,
+        required: [true, "organizerId is required."]
+    },
+    dueDate: {
+        type: String,
+        required: [true, "specifying the due date is required."]
+    },
+    completed: {
+        type: Boolean,
+        required: [true, "true or false completed is required."],
+    },*/
 });
 
 const Task = mongoose.model("task", taskSchema);
