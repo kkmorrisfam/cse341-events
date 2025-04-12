@@ -96,4 +96,17 @@ describe("Test Get All Users", () => {
     expect(response.data[1].email).toBe("barney@gmail.com");
     expect(response.data[1].phone).toBe("702-123-4567");
   });
+
+  test("Handles error when getting all users", async ()=> {
+    mockingoose(User).toReturn(new Error("Mocked DB error"), "find");
+
+    const request = {};
+    const response = new TestResponse();
+    const next = jest.fn();
+
+    await getAllUsers(request, response, next);
+
+    expect(response.statusCode).toBe(400);
+    expect(response.data).toEqual({ message: "Server error while fetching all users."});
+  })
 });

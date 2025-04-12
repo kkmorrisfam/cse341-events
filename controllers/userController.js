@@ -92,7 +92,7 @@ const updateUserInfo = async (req, res) => {
 };
 
 // google callback function after google authenticates user
-const googleCallBack = (req, res, next) => {
+const googleCallBack = (req, res, next) => {   
   try {
     req.login(req.user, (err) => {
       if (err) {
