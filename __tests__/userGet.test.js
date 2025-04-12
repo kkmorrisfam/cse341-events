@@ -37,6 +37,19 @@ describe("Test Get User", () => {
 
     expect(res.data.toJSON()).toEqual(_user);
   });
+
+  test("Handles error when getting one user", async () => {
+    mockingoose(User).toReturn(new Error("Mocked DB error"), "findOne");
+
+    const request = { params: { id: "12345678910" } };
+    const response = new TestResponse();
+    const next = jest.fn();
+
+    await getUser(request, response, next);
+
+    expect(response.statusCode).toBe(400);
+    expect(response.data).toEqual({ message: "Server error getting user." });
+  });
 });
 
 describe("Test Get All Users", () => {
