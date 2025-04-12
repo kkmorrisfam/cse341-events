@@ -5,15 +5,15 @@ const isAuthenticated = require("../utils/isAuthenticated");
 const validate = require("../utils/userValidations");
 
 //test route
-router.get("/check-auth", (req, res) => {
-  console.log("SESSION:", req.session);
-  console.log("COOKIE:", req.headers.cookie);
-  console.log("AUTHENTICATED:", req.isAuthenticated());
-  res.json({
-    authenticated: req.isAuthenticated(),
-    user: req.user,
-  });
-});
+// router.get("/check-auth", (req, res) => {
+//   console.log("SESSION:", req.session);
+//   console.log("COOKIE:", req.headers.cookie);
+//   console.log("AUTHENTICATED:", req.isAuthenticated());
+//   res.json({
+//     authenticated: req.isAuthenticated(),
+//     user: req.user,
+//   });
+// });
 
 // user login - get the user login page
 // router.get("/login", (req, res) => {
@@ -41,7 +41,6 @@ router.get(
   }),
   userController.googleCallBack
 );
-
 
 // get all users
 router.get("/", isAuthenticated, userController.getAllUsers);
@@ -76,10 +75,6 @@ router.put(
 );
 
 // route to delete a user, checks if user to delete is logged in first
-router.delete(
-  "/delete-user/:id",
-  isAuthenticated,
-  userController.deleteUser
-);
+router.delete("/delete-user/:id", isAuthenticated, userController.deleteUser);
 
 module.exports = router;
