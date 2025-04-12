@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "swagger": "node ./swagger.js"
+    "swagger": "node ./swagger.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "mockingoose": "^2.16.2",
     "nodemon": "^3.1.9",
     "supertest": "^7.1.0"
   }
