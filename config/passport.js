@@ -5,7 +5,6 @@ const User = require("../models/userModel");
 require("dotenv").config();
 
 const isProd = process.env.NODE_ENV === "production";
-const isTest = process.env.NODE_ENV === "test";
 
 passport.serializeUser((user, done) => {
   //user is from our database
@@ -23,8 +22,8 @@ passport.deserializeUser((id, done) => {
     done(err);
   });
 });
-if (!isTest) {
-  passport.use(
+
+passport.use(
     new GoogleStrategy(
       {
         clientID: isProd
@@ -64,8 +63,6 @@ if (!isTest) {
       }
     )
   );
-}
-
 
 //sets up the local strategy with passport-local-mongoose
 passport.use(User.createStrategy());
