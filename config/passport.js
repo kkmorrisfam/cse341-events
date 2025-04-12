@@ -5,7 +5,6 @@ const User = require("../models/userModel");
 require("dotenv").config();
 
 const isProd = process.env.NODE_ENV === "production";
-const isTest = process.env.NODE_ENV === "test";
 
 passport.serializeUser((user, done) => {
   //user is from our database
@@ -23,49 +22,47 @@ passport.deserializeUser((id, done) => {
     done(err);
   });
 });
-if (!isTest) {
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: isProd
-          ? process.env.GOOGLE_CLIENT_ID_PROD
-          : process.env.GOOGLE_CLIENT_ID_DEV,
-        clientSecret: isProd
-          ? process.env.GOOGLE_CLIENT_SECRET_PROD
-          : process.env.GOOGLE_CLIENT_SECRET_DEV,
-        callbackURL: isProd
-          ? process.env.CALLBACK_URL_PROD
-          : process.env.CALLBACK_URL_DEV,
-      },
-      (req, accessToken, refreshToken, profile, done) => {
-        // function when returning from Google
-        console.log("passport callback function fired");
-        // console.log(profile);
-        //check to see if user exists
-        User.findOne({ googleId: profile.id }).then((currentUser) => {
-          if (currentUser) {
-            console.log("current user is: ", currentUser);
-            done(null, currentUser);
-          } else {
-            new User({
-              username: profile.displayName,
-              googleId: profile.id,
-              firstname: profile.given_name,
-              lastname: profile.family_name,
-              email: profile.email,
-            })
-              .save()
-              .then((newUser) => {
-                console.log("new user created " + newUser);
-                done(null, newUser);
-              });
-          }
-        });
-      }
-    )
-  );
-}
 
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: isProd
+        ? process.env.GOOGLE_CLIENT_ID_PROD
+        : process.env.GOOGLE_CLIENT_ID_DEV,
+      clientSecret: isProd
+        ? process.env.GOOGLE_CLIENT_SECRET_PROD
+        : process.env.GOOGLE_CLIENT_SECRET_DEV,
+      callbackURL: isProd
+        ? process.env.CALLBACK_URL_PROD
+        : process.env.CALLBACK_URL_DEV,
+    },
+    (req, accessToken, refreshToken, profile, done) => {
+      // function when returning from Google
+      console.log("passport callback function fired");
+      // console.log(profile);
+      //check to see if user exists
+      User.findOne({ googleId: profile.id }).then((currentUser) => {
+        if (currentUser) {
+          console.log("current user is: ", currentUser);
+          done(null, currentUser);
+        } else {
+          new User({
+            username: profile.displayName,
+            googleId: profile.id,
+            firstname: profile.given_name,
+            lastname: profile.family_name,
+            email: profile.email,
+          })
+            .save()
+            .then((newUser) => {
+              console.log("new user created " + newUser);
+              done(null, newUser);
+            });
+        }
+      });
+    }
+  )
+);
 
 //sets up the local strategy with passport-local-mongoose
 passport.use(User.createStrategy());

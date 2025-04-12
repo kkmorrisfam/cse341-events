@@ -10,7 +10,6 @@ const getAll = async (req, res, next)=>{
         if(!result){
             throw createError(404,"There aren't events");
         }
-        res.setHeader('Content-Type', 'application/json');
         res.status(200).json(result);
     } catch (error) {
         console.log(error);
@@ -27,8 +26,6 @@ const getSingle = async (req, res, next)=>{
         if(result.length === 0){
             throw createError(404,"Event doesn't exist");
         }
-
-       // res.setHeader('Content-Type', 'application/json');
         res.status(200).json(result);
     } catch (error) {
         console.log("ERROR:", error);
