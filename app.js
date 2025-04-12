@@ -45,25 +45,7 @@ connectDB(process.env.MONGO_URI).then(()=>{
   app.use(passport.session());
 
   // other middleware setup
-  // app.use((req, res, next) => {
-  //   res.setHeader("Access-Control-Allow-Origin", "*");
-  //   res.setHeader(
-  //     "Access-Control-Allow-Headers",
-  //     "Origin, X-Requested-With, Content-Type, Accept, Z-Key"
-  //   );
-  //   res.setHeader(
-  //     "Access-Control-Allow-Methods",
-  //     "GET, POST, PUT, DELETE, OPTIONS"
-  //   );
-  //   next();
-  // });
-  // app.use(
-  //   cors({
-  //     origin: "*",
-  //     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-  //   })
-  // );
-
+  
   app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
