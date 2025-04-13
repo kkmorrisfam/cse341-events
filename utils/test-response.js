@@ -1,6 +1,7 @@
 module.exports = class TestResponse{
     statusCode = 0;
     status(code){
+
         this.statusCode = code;
         return this
     };
