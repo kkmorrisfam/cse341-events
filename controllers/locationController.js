@@ -1,8 +1,7 @@
-const db = require("../db/connect");
-const passport = require("passport");
 const location = require("../models/locationModel");
+const ObjectId = require('mongodb').ObjectId;
 
-const { ObjectId } = require("mongodb");
+
 
 const getAll = async (req, res) => {
   try {
