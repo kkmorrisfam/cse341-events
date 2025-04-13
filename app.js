@@ -22,6 +22,9 @@ connectDB(process.env.MONGO_URI)
     console.log("Connection to MongoDB successfull...");
 
     //passport and sessions setup
+
+    app.set("trust proxy", 1);
+
     app.use(
       session({
         secret: process.env.SESSION_SECRET,
