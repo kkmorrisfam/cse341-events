@@ -1,7 +1,33 @@
 const passport = require("passport");
 const User = require("../models/userModel");
 
+const getUser = async (req, res) => {
+  //#swagger.tags=['Users']
+  try {
+    const result = await User.findOne({ _id: req.params.id });
+    if (!result) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Error fetching user: ", error);
+    res.status(400).json({ message: "Server error getting user." });
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  //#swagger.tags=['Users']
+  try {
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching all users: ", error);
+    res.status(400).json({ message: "Server error while fetching all users." });
+  }
+};
+
 const registerUser = async (req, res) => {
+  //#swagger.tags=['Users']
   const { username, password, email, firstname, lastname, phone } = req.body;
   try {
     const newUser = new User({ username, email, firstname, lastname, phone });
@@ -23,6 +49,7 @@ const registerUser = async (req, res) => {
 
 // Update user info and/or password
 const updateUserInfo = async (req, res) => {
+  //#swagger.tags=['Users']
   try {
     const { firstname, lastname, email, phone, currentPassword, newPassword } =
       req.body;
@@ -65,12 +92,18 @@ const updateUserInfo = async (req, res) => {
 };
 
 // google callback function after google authenticates user
-const googleCallBack = (req, res, next) => {
+const googleCallBack = (req, res, next) => {   
   try {
-    console.log("Google login successful:");
-    // use a route to redirect user after login successful
-    req.session.user = req.user;
-    res.redirect("/"); //return to home page
+    req.login(req.user, (err) => {
+      if (err) {
+        console.error("Error logging in user: ", err);
+        return next(err);
+      }
+      // req.session.user = req.user;
+      console.log("Google login successful: ", req.user.id);
+      // use a route to redirect user after login successful
+      res.redirect("/"); //return to home page
+    });
   } catch (err) {
     console.error("Error in Google callback:", err);
     next(err);
@@ -79,14 +112,14 @@ const googleCallBack = (req, res, next) => {
 
 // user logout
 const userLogout = (req, res, next) => {
+  //#swagger.tags=['Users']
   try {
     req.logout((err) => {
       if (err) return next(err);
       req.session.destroy((err) => {
         if (err) return next(err);
         res.clearCookie("connect.sid");
-        res.send("<h2>Logout Page</h2>"); //visual success for now
-        //res.redirect("/");
+        res.status(200).json({ message: "Logged out successfully." });
       });
     });
   } catch (err) {
@@ -97,6 +130,7 @@ const userLogout = (req, res, next) => {
 
 // Local login after passport authenticates user
 const loginUser = (req, res, next) => {
+  //#swagger.tags=['Users']
   try {
     res.status(200).json({
       message: "Login successful",
@@ -109,6 +143,7 @@ const loginUser = (req, res, next) => {
 };
 
 const deleteUser = async (req, res, next) => {
+  //#swagger.tags=['Users']
   try {
     //check to see if the current user is logged in as the user
     if (!req.user) {
@@ -134,6 +169,8 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
+  getUser,
+  getAllUsers,
   registerUser,
   updateUserInfo,
   userLogout,

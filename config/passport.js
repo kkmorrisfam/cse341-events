@@ -8,17 +8,23 @@ const isProd = process.env.NODE_ENV === "production";
 
 passport.serializeUser((user, done) => {
   //user is from our database
+  console.log("serializeUser: ", user.id);
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
+  console.log("deserializeUser: looking for", id);
   User.findById(id).then((user) => {
+    console.log("deserializeUser: found", user ? user.id : "none");
     done(null, user);
+  }).catch(err => {
+    console.error("deserializeUser error: ", err);
+    done(err);
   });
 });
 
 passport.use(
-  new GoogleStrategy(    
+  new GoogleStrategy(
     {
       clientID: isProd
         ? process.env.GOOGLE_CLIENT_ID_PROD
@@ -44,7 +50,7 @@ passport.use(
             username: profile.displayName,
             googleId: profile.id,
             firstname: profile.given_name,
-            lastname: profile.last_name,
+            lastname: profile.family_name,
             email: profile.email,
           })
             .save()
