@@ -1,11 +1,12 @@
-module.exports = class TestResponse {
+module.exports = class TestResponse{
     statusCode = 0;
-    status(code) {
+    status(code){
+
         this.statusCode = code;
         return this
     };
     data = {};
-    json(data) {
+    json(data){
         this.data = data
     };
 };
