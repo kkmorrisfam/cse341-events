@@ -20,9 +20,9 @@ const getOneTask = async (req, res) => {
     //#swagger.tags=['Tasks']
     try {
         const taskId = new ObjectId(req.params.id);
-        const response = await Task.find({ _id: taskId });
+        const response = await Task.findOne({ _id: taskId });
         if (response) {
-            res.setHeader('Content-Type', 'application/json');
+            //res.setHeader('Content-Type', 'application/json');
             res.status(200).json(response);
         } else {
             res.status(500).json(response.error || 'Some error occurred while getting the task data.')
