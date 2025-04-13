@@ -5,15 +5,15 @@ const isAuthenticated = require("../utils/isAuthenticated");
 const validate = require("../utils/userValidations");
 
 //test route
-// router.get("/check-auth", (req, res) => {
-//   console.log("SESSION:", req.session);
-//   console.log("COOKIE:", req.headers.cookie);
-//   console.log("AUTHENTICATED:", req.isAuthenticated());
-//   res.json({
-//     authenticated: req.isAuthenticated(),
-//     user: req.user,
-//   });
-// });
+router.get("/check-auth", (req, res) => {
+  console.log("SESSION:", req.session);
+  console.log("COOKIE:", req.headers.cookie);
+  console.log("AUTHENTICATED:", req.isAuthenticated());
+  res.json({
+    authenticated: req.isAuthenticated(),
+    user: req.user,
+  });
+});
 
 // user login - get the user login page
 // router.get("/login", (req, res) => {

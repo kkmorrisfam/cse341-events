@@ -17,70 +17,89 @@ const host = process.env.HOST;
 const isProd = process.env.NODE_ENV === "production";
 
 //connect to the database
-connectDB(process.env.MONGO_URI).then(()=>{
-  console.log("Connection to MongoDB successfull...");
+connectDB(process.env.MONGO_URI)
+  .then(() => {
+    console.log("Connection to MongoDB successfull...");
 
-  //passport and sessions setup
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      // saveUninitialized: !isProd,
-      saveUninitialized: false,
-      store: MongoStore.create({
-        // mongoUrl: process.env.MONGO_URI,
-        // connectionName: "sessions"
-        client: mongoose.connection.getClient(),
-      }),
-      cookie: {
-        secure: isProd,
-        httpOnly: true,
-        sameSite: isProd ? "lax" : "strict",
-        maxAge: 1000 * 60 * 60 * 24, // expires 24 hours
-      },
-    })
-  );
+    //passport and sessions setup
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+    app.set("trust proxy", 1);
 
-  // other middleware setup
-  
-  app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-type, Accept, Z-key, Authorization"
+    app.use(
+      session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        // saveUninitialized: !isProd,
+        saveUninitialized: false,
+        store: MongoStore.create({
+          // mongoUrl: process.env.MONGO_URI,
+          // connectionName: "sessions"
+          client: mongoose.connection.getClient(),
+        }),
+        cookie: {
+          secure: isProd,
+          httpOnly: true,
+          // sameSite: isProd ? "lax" : "strict",
+          sameSite: "none",
+          maxAge: 1000 * 60 * 60 * 24, // expires 24 hours
+        },
+      })
     );
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "POST, GET, PUT, PATCH, OPTIONS, DELETE"
-    );
-    next();
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // other middleware setup
+
+    const allowedOrigins = [
+      "https://cse341-events-vmzz.onrender.com", // your frontend if hosted separately
+      "http://localhost:3000", // for local dev testing if needed
+    ];
+
+    app
+      .use((req, res, next) => {
+        // res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader(
+          "Access-Control-Allow-Headers",
+          "Origin, X-Requested-With, Content-type, Accept, Z-key, Authorization"
+        );
+        res.setHeader(
+          "Access-Control-Allow-Methods",
+          "POST, GET, PUT, PATCH, OPTIONS, DELETE"
+        );
+        next();
+      })
+      // .use(
+      //   cors({ methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] })
+      // )
+      .use(
+        cors({
+          origin: allowedOrigins,
+          credentials: true,
+        })
+      );
+
+    app.use(bodyParser.json());
+
+    // routes setup
+    app.use("/", require("./routes"));
+
+    // express built-in error handling middleware
+    app.use((err, req, res, next) => {
+      res.status(err.status || 500);
+      res.send({
+        error: {
+          status: err.status || 500,
+          message: err.message,
+        },
+      });
+    });
+
+    // start the server
+    app.listen(port, () => {
+      console.log(`Server is listening on ${host} port ${port}...`);
+    });
   })
-  .use(cors({ methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] }))
-  .use(cors({ origin: "*" }))
-
-  app.use(bodyParser.json());
-
-  // routes setup
-  app.use("/", require("./routes"));
-
-  // express built-in error handling middleware
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.send({
-      error: {
-        status: err.status || 500,
-        message: err.message,
-      },
-    });
-  });
-
-  // start the server
-  app.listen(port, ()=> {
-      console.log(`Server is listening on ${host} port ${port}...`)
-    });
-  }).catch((err) => {
+  .catch((err) => {
     console.error("Failed to connect to MongoDB: ", err);
   });
