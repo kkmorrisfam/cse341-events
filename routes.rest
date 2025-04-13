@@ -12,8 +12,8 @@ POST http://localhost:3000/tasks/
 Content-Type: application/json
 
 {
-    "taskName": "Cake",
-    "taskDescription": "10 meals with 6 meat and 4 vegetarians",
+    "taskName": "Catering",
+    "taskDescription": "20 meals with 12 meat and 8 vegetarians",
     "eventId": "birthday11",
     "organizerId": "566",
     "dueDate": "2025-06-15",

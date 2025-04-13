@@ -6,7 +6,7 @@ const getAllTasks = async (req, res) => {
     try {
         const response = await Task.find();
         if (response) {
-            res.setHeader('Content-Type', 'application/json');
+            //res.setHeader('Content-Type', 'application/json');
             res.status(200).json(response);
         } else {
             res.status(500).json(response.error || 'Some error occurred while getting task data.')
