@@ -217,6 +217,9 @@
     },
     "/user/": {
       "get": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -233,6 +236,9 @@
     },
     "/user/logout": {
       "get": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -243,6 +249,9 @@
     },
     "/user/{id}": {
       "get": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -270,6 +279,9 @@
     },
     "/user/login": {
       "post": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -280,6 +292,9 @@
     },
     "/user/register-user": {
       "post": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -325,6 +340,9 @@
     },
     "/user/update-info/{id}": {
       "put": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -379,6 +397,9 @@
     },
     "/user/delete-user/{id}": {
       "delete": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
