@@ -48,9 +48,14 @@ connectDB(process.env.MONGO_URI)
 
     // other middleware setup
 
+    const allowedOrigins = [
+      "https://cse341-events-vmzz.onrender.com", // your frontend if hosted separately
+      "http://localhost:3000", // for local dev testing if needed
+    ];
+
     app
       .use((req, res, next) => {
-        res.setHeader("Access-Control-Allow-Origin", "*");
+        // res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader(
           "Access-Control-Allow-Headers",
           "Origin, X-Requested-With, Content-type, Accept, Z-key, Authorization"
@@ -61,10 +66,15 @@ connectDB(process.env.MONGO_URI)
         );
         next();
       })
+      // .use(
+      //   cors({ methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] })
+      // )
       .use(
-        cors({ methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] })
-      )
-      .use(cors({ origin: "*" }));
+        cors({
+          origin: allowedOrigins,
+          credentials: true,
+        })
+      );
 
     app.use(bodyParser.json());
 
