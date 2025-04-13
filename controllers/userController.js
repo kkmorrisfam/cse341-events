@@ -1,6 +1,30 @@
 const passport = require("passport");
 const User = require("../models/userModel");
 
+const getUser = async (req, res) => {
+  try {
+    const result = await User.findOne({ _id: req.params.id });
+    if (!result) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Error fetching user: ", error);
+    res.status(400).json({ message: "Server error getting user." });
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching all users: ", error);
+    res.status(400).json({ message: "Server error while fetching all users." });
+  }
+};
+
+// Create a new user and register them using passport-local-mongoose
 const registerUser = async (req, res) => {
   const { username, password, email, firstname, lastname, phone } = req.body;
   try {
@@ -71,6 +95,16 @@ const googleCallBack = (req, res, next) => {
     // use a route to redirect user after login successful
     req.session.user = req.user;
     res.redirect("/"); //return to home page
+    req.login(req.user, (err) => {
+      if (err) {
+        console.error("Error logging in user: ", err);
+        return next(err);
+      }
+      // req.session.user = req.user;
+      console.log("Google login successful: ", req.user.id);
+      // use a route to redirect user after login successful
+      res.redirect("/"); //return to home page
+    });
   } catch (err) {
     console.error("Error in Google callback:", err);
     next(err);
@@ -85,8 +119,11 @@ const userLogout = (req, res, next) => {
       req.session.destroy((err) => {
         if (err) return next(err);
         res.clearCookie("connect.sid");
+
         res.send("<h2>Logout Page</h2>"); //visual success for now
         //res.redirect("/");
+        res.status(200).json({ message: "Logged out successfully." });
+        main;
       });
     });
   } catch (err) {
@@ -134,6 +171,8 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
+  getUser,
+  getAllUsers,
   registerUser,
   updateUserInfo,
   userLogout,

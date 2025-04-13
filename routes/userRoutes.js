@@ -4,6 +4,17 @@ const userController = require("../controllers/userController");
 const isAuthenticated = require("../utils/isAuthenticated");
 const validate = require("../utils/userValidations");
 
+//test route
+// router.get("/check-auth", (req, res) => {
+//   console.log("SESSION:", req.session);
+//   console.log("COOKIE:", req.headers.cookie);
+//   console.log("AUTHENTICATED:", req.isAuthenticated());
+//   res.json({
+//     authenticated: req.isAuthenticated(),
+//     user: req.user,
+//   });
+// });
+
 // user login - get the user login page
 // router.get("/login", (req, res) => {
 //   res.send("<h1>Login Page</h1>");
@@ -16,7 +27,7 @@ router.get(
   passport.authenticate(
     "google",
     //what do we want from google?
-    { scope: ["profile"] }
+    { scope: ["email", "profile"] }
   )
 );
 
@@ -26,7 +37,7 @@ router.get(
   // take code from google and get profile information
   passport.authenticate("google", {
     failureRedirect: "/login",
-    session: false,
+    // session: false,   // while false, isAuthenticated won't work correctly
   }),
   userController.googleCallBack
 );
@@ -64,6 +75,16 @@ router.get("/logout", userController.userLogout);
 // }
 // #swagger.responses[200] = { description: 'OK. User logged in successfully.' }
 // #swagger.responses[401] = { description: 'Unauthorized' }
+
+// get all users
+router.get("/", isAuthenticated, userController.getAllUsers);
+
+// user logout route
+router.get("/logout", userController.userLogout);
+
+// get one user
+router.get("/:id", isAuthenticated, userController.getUser);
+
 router.post("/login", passport.authenticate("local"), userController.loginUser);
 
 //route to login locally - uses passport to authenticate
@@ -96,6 +117,7 @@ router.post("/login", passport.authenticate("local"), userController.loginUser);
 // #swagger.responses[200] = { description: 'User registered and logged in' }
 // #swagger.responses[400] = { description: 'Validation or registration error' }
 // #swagger.responses[500] = { description: 'Server error' }
+
 router.post(
   "/register-user",
   validate.addLocalUserRules(),
@@ -136,6 +158,7 @@ router.post(
 // #swagger.responses[400] = { description: 'Validation error or password change failed' }
 // #swagger.responses[401] = { description: 'Unauthorized' }
 // #swagger.responses[500] = { description: 'Internal server error' }
+
 router.put(
   "/update-info/:id",
   validate.updateUserRules(),
@@ -143,6 +166,9 @@ router.put(
   isAuthenticated, //comment out for testing
   userController.updateUserInfo
 );
+
+// route to delete a user, checks if user to delete is logged in first
+router.delete("/delete-user/:id", isAuthenticated, userController.deleteUser);
 
 // route to delete a user, checks if user to delete is logged in first
 router.delete(

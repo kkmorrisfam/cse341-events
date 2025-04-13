@@ -1,4 +1,4 @@
-### Get all accounts
+### Get all tasks
 GET http://localhost:3000/tasks
 
 
@@ -6,35 +6,42 @@ GET http://localhost:3000/tasks
 ### Get one account (based on id)
 GET http://localhost:3000/tasks/
 
+### Get one Task (based on id)
+GET http://localhost:3000/tasks/67f661d3e667e568f8b9445c
 
-### Create new account
+
+### Create new Task
 POST http://localhost:3000/tasks/
 Content-Type: application/json
 
 {
-    "taskName": "Decorations",
-    "taskDescription": "Add flowers and balloons to the venue",
-    "eventId": "wedding41",
-    "organizerId": "565",
-    "dueDate": "May 29, 2025",
+    "taskName": "Cake",
+    "taskDescription": "10 meals with 6 meat and 4 vegetarians",
+    "eventId": "birthday11",
+    "organizerId": "566",
+    "dueDate": "2025-06-15",
     "completed": "false"
+   
 }
 
-### Update account (based on id)
-PUT http://localhost:3000/tasks/67ef70c01bf6ed248d8f5f2f
+### Update task (based on id)
+PUT http://localhost:3000/tasks/67f64219f7e9899a8605cda5
 Content-Type: application/json
 
 {
-    "taskName": "Decorations",
-    "taskDescription": "Add flowers and balloons to the venue",
-    "eventId": "wedding33",
-    "organizerId": "565",
-    "dueDate": "Apr 09, 2025",
-    "completed": "false"
+    "taskName": "g",
+    "taskDescription": "10 meals with 7 meat and 3 vegetarians",
+    "eventId": "birthday11",
+    "organizerId": "566",
+    "dueDate": "June 4, 2025",
+    "completed": "true"
 }
 
-### Delete account (based on id)
-DELETE http://localhost:3000/tasks/67ef78f644fc173ea750558f
+### Delete task (based on id)
+DELETE http://localhost:3000/tasks/67f653a16965167424a3eceb
+
+### Delete many tasks (based on taskName)
+DELETE http://localhost:3000/tasks/taskName/Food
 __________________________________________________________________________________________
 ###Get all Events
 GET http://localhost:3000/events
