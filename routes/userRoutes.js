@@ -55,27 +55,6 @@ router.get(
 // user logout route
 router.get("/logout", userController.userLogout);
 
-// #swagger.tags = ['User']
-// #swagger.summary = 'Login a user'
-// #swagger.description = 'Login a local user'
-// #swagger.requestBody = {
-//   required: true,
-//   content: {
-//     'application/json': {
-//       schema: {
-//         type: 'object',
-//         properties: {
-//           username: { type: 'string', example: 'mickeymouse' },
-//           password: { type: 'string', example: 'Example123!' }
-//         },
-//         required: ['username', 'password']
-//       }
-//     }
-//   }
-// }
-// #swagger.responses[200] = { description: 'OK. User logged in successfully.' }
-// #swagger.responses[401] = { description: 'Unauthorized' }
-
 // get all users
 router.get("/", isAuthenticated, userController.getAllUsers);
 
