@@ -51,8 +51,15 @@ const registerUser = async (req, res) => {
 const updateUserInfo = async (req, res) => {
   //#swagger.tags=['Users']
   try {
-    const { firstname, lastname, email, phone, currentPassword, newPassword } =
-      req.body;
+    const {
+      username,
+      firstname,
+      lastname,
+      email,
+      phone,
+      currentPassword,
+      newPassword,
+    } = req.body;
 
     const userId = req.params.id;
 
@@ -61,6 +68,7 @@ const updateUserInfo = async (req, res) => {
     if (!user) return res.status(401).json({ message: "User not found." });
 
     // Update basic fields
+    if (username) user.username = username;
     if (firstname) user.firstname = firstname;
     if (lastname) user.lastname = lastname;
     if (email) user.email = email;
@@ -92,7 +100,7 @@ const updateUserInfo = async (req, res) => {
 };
 
 // google callback function after google authenticates user
-const googleCallBack = (req, res, next) => {   
+const googleCallBack = (req, res, next) => {
   try {
     req.login(req.user, (err) => {
       if (err) {
@@ -142,6 +150,9 @@ const loginUser = (req, res, next) => {
   }
 };
 
+// Note: this is written expecting that only the user can delete themselves
+//       It will logout the user once they are deleted.
+//       Logic will need to be changed if logout is based on role.
 const deleteUser = async (req, res, next) => {
   //#swagger.tags=['Users']
   try {
