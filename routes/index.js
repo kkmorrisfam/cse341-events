@@ -12,6 +12,9 @@ router.use('/events', require('./events'));
 //router for user login/authentication
 router.use("/user", userRoutes);
 router.use("/tasks", require("./tasks"));
+router.use("/vendors", require("./vendors"));
 
+//router for location routes
+router.use("/location", require("./location"));
 
 module.exports = router;
