@@ -2,7 +2,7 @@ const Vendor = require("../models/vendorModel");
 const ObjectId = require("mongodb").ObjectId;
 
 const getAllVendors = async (req, res) => {
-  //#swagger.tags=['Vendor']
+  //#swagger.tags=['Vendors']
   try{
   const response = await Vendor.find();
   res.data = response;
@@ -14,7 +14,7 @@ const getAllVendors = async (req, res) => {
 };
 
 const getOneVendor = async (req, res) => {
-  //#swagger.tags=['Vendor']'
+  //#swagger.tags=['Vendors']'
   try {
     const vendorId = new ObjectId(req.params.id);
     const response = await Vendor.findOne({ _id: vendorId });
@@ -26,7 +26,7 @@ const getOneVendor = async (req, res) => {
 };
 
 const createVendor = async (req, res) => {
-  //#swagger.tags=['Vendor']
+  //#swagger.tags=['Vendors']
 try {
   const vendor = {
     vendorName: req.body.vendorName,
@@ -51,7 +51,7 @@ try {
 };
 
 const updateVendor = async (req, res) => {
-  //#swagger.tags=['Vendor']
+  //#swagger.tags=['Vendors']
   try {
     const vendorId = new ObjectId(req.params.id);
     const vendor = req.body;
@@ -75,7 +75,7 @@ const updateVendor = async (req, res) => {
 };
 
 const deleteVendor = async (req, res) => {
-  //#swagger.tags=['Vendor']
+  //#swagger.tags=['Vendors']
 try {
   const vendorId = new ObjectId(req.params.id);
   const response = await Vendor.deleteOne({ _id: vendorId });

@@ -647,10 +647,10 @@
         }
       }
     },
-    "/vendor/": {
+    "/vendors/": {
       "get": {
         "tags": [
-          "Vendor"
+          "Vendors"
         ],
         "description": "",
         "responses": {
@@ -664,7 +664,7 @@
       },
       "post": {
         "tags": [
-          "Vendor"
+          "Vendors"
         ],
         "description": "",
         "parameters": [
@@ -715,10 +715,10 @@
         }
       }
     },
-    "/vendor/{id}": {
+    "/vendors/{id}": {
       "get": {
         "tags": [
-          "Vendor"
+          "Vendors"
         ],
         "description": "",
         "parameters": [
@@ -737,7 +737,7 @@
       },
       "put": {
         "tags": [
-          "Vendor"
+          "Vendors"
         ],
         "description": "",
         "parameters": [
@@ -759,7 +759,7 @@
       },
       "delete": {
         "tags": [
-          "Vendor"
+          "Vendors"
         ],
         "description": "",
         "parameters": [
