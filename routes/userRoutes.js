@@ -88,6 +88,7 @@ router.put(
 );
 
 // route to delete a user, checks if user to delete is logged in first
+// after user is deleted, user is logged out
 router.delete("/delete-user/:id", isAuthenticated, userController.deleteUser);
 
 module.exports = router;
