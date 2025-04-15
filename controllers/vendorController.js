@@ -54,7 +54,15 @@ const updateVendor = async (req, res) => {
   //#swagger.tags=['Vendor']
   try {
     const vendorId = new ObjectId(req.params.id);
-    const vendor = req.body;
+    const vendor = {
+      vendorName: req.body.vendorName,
+      vendorCategory: req.body.vendorCategory,
+      contactName: req.body.contactName,
+      contactEmail: req.body.contactEmail,
+      contactPhone: req.body.contactPhone,
+      website: req.body.website,
+      rating: req.body.rating,
+    };
     console.log("Updating vendor with:", vendor);
 
     const response = await Vendor.replaceOne({ _id: vendorId }, vendor);
