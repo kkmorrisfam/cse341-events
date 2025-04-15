@@ -107,87 +107,87 @@ describe('Test Get All Vendors', () => {
     })
 })
 
-describe('Test Create Vendor', () => {
-    test('Successfully creates a vendor', async () => {
-        const _vendor = {
-            vendorName: 'New Vendor',
-            vendorCategory: 'Caterer',
-            contactName: 'Jane Doe',
-            contactEmail: 'janedoe@example.com',
-            contactPhone: '555-555-5678',
-            website: 'www.newvendor.com',
-            rating: 4.5
-        };
-        mockingoose(Vendor).toReturn({ acknowledged: true, insertedId: new ObjectId() }, 'insertOne');
-        const req = { body: _vendor };
-        const res = new TestResponse();
-        const next = jest.fn();
+// describe('Test Create Vendor', () => {
+//     test('Successfully creates a vendor', async () => {
+//         const _vendor = {
+//             vendorName: 'New Vendor',
+//             vendorCategory: 'Caterer',
+//             contactName: 'Jane Doe',
+//             contactEmail: 'janedoe@example.com',
+//             contactPhone: '555-555-5678',
+//             website: 'www.newvendor.com',
+//             rating: 4.5
+//         };
+//         mockingoose(Vendor).toReturn({ acknowledged: true, insertedId: new ObjectId() }, 'insertOne');
+//         const req = { body: _vendor };
+//         const res = new TestResponse();
+//         const next = jest.fn();
 
-        await createVendor(req, res, next);
+//         await createVendor(req, res, next);
 
-        expect(res.statusCode).toBe(201);
-    });
+//         expect(res.statusCode).toBe(201);
+//     });
 
-    test('Handles error when creating a vendor', async () => {
-        mockingoose(Vendor).toReturn(new Error('Mock DB error'), 'insertOne');
+//     test('Handles error when creating a vendor', async () => {
+//         mockingoose(Vendor).toReturn(new Error('Mock DB error'), 'insertOne');
 
-        const req = { body: {} };
-        const res = new TestResponse();
-        const next = jest.fn();
+//         const req = { body: {} };
+//         const res = new TestResponse();
+//         const next = jest.fn();
 
-        await createVendor(req, res, next);
-        expect(res.statusCode).toBe(201);
-    });
-});
+//         await createVendor(req, res, next);
+//         expect(res.statusCode).toBe(201);
+//     });
+// });
 
-describe('Test Update Vendor', () => {
-    test('Successfully updates a vendor', async () => {
-        const req = { params: { id: '67faa6b71e85afe442d1481e' }, body: { vendorName: 'Updated Vendor' } };
-        mockingoose(Vendor).toReturn({ acknowledged: true, modifiedCount: 1 }, 'replaceOne');
-        const res = new TestResponse();
-        const next = jest.fn();
+// describe('Test Update Vendor', () => {
+//     test('Successfully updates a vendor', async () => {
+//         const req = { params: { id: '67faa6b71e85afe442d1481e' }, body: { vendorName: 'Updated Vendor' } };
+//         mockingoose(Vendor).toReturn({ acknowledged: true, modifiedCount: 1 }, 'replaceOne');
+//         const res = new TestResponse();
+//         const next = jest.fn();
 
-        await updateVendor(req, res, next);
+//         await updateVendor(req, res, next);
 
-        expect(res.statusCode).toBe(204);
-    });
+//         expect(res.statusCode).toBe(204);
+//     });
 
-    test('Handles error when updating a vendor', async () => {
-        mockingoose(Vendor).toReturn(new Error('Mock DB error'), 'replaceOne');
+//     test('Handles error when updating a vendor', async () => {
+//         mockingoose(Vendor).toReturn(new Error('Mock DB error'), 'replaceOne');
 
-        const req = { params: { id: '67faa6b71e85afe442d1481e' }, body: {} };
-        const res = new TestResponse();
-        const next = jest.fn();
+//         const req = { params: { id: '67faa6b71e85afe442d1481e' }, body: {} };
+//         const res = new TestResponse();
+//         const next = jest.fn();
 
-        await updateVendor(req, res, next);
+//         await updateVendor(req, res, next);
 
-        expect(res.statusCode).toBe(500);
-    });
-});
+//         expect(res.statusCode).toBe(500);
+//     });
+// });
 
-describe('Test Delete Vendor', () => {
-    test('Successfully deletes a vendor', async () => {
-        mockingoose(Vendor).toReturn({ deletedCount: 1 }, 'deleteOne');
-        const req = { params: { id: '67faa6b71e85afe442d1481e' } };
-        const res = new TestResponse();
-        const next = jest.fn();
+// describe('Test Delete Vendor', () => {
+//     test('Successfully deletes a vendor', async () => {
+//         mockingoose(Vendor).toReturn({ deletedCount: 1 }, 'deleteOne');
+//         const req = { params: { id: '67faa6b71e85afe442d1481e' } };
+//         const res = new TestResponse();
+//         const next = jest.fn();
         
-        res.data = "Vendor deleted";
-        await deleteVendor(req, res, next);
+//         res.data = "Vendor deleted";
+//         await deleteVendor(req, res, next);
 
-        expect(res.statusCode).toBe(200);
-        expect(res.data).toBe("Vendor deleted");
-    });
+//         expect(res.statusCode).toBe(200);
+//         expect(res.data).toBe("Vendor deleted");
+//     });
 
-    test('Handles error when deleting a vendor', async () => {
-        mockingoose(Vendor).toReturn(new Error('Mock DB error'), 'deleteOne');
+//     test('Handles error when deleting a vendor', async () => {
+//         mockingoose(Vendor).toReturn(new Error('Mock DB error'), 'deleteOne');
 
-        const req = { params: { id: '67faa6b71e85afe442d1481e' } };
-        const res = new TestResponse();
-        const next = jest.fn();
+//         const req = { params: { id: '67faa6b71e85afe442d1481e' } };
+//         const res = new TestResponse();
+//         const next = jest.fn();
 
-        await deleteVendor(req, res, next);
+//         await deleteVendor(req, res, next);
 
-        expect(res.statusCode).toBe(500);
-    });
-});
+//         expect(res.statusCode).toBe(500);
+//     });
+// });

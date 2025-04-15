@@ -39,8 +39,9 @@ connectDB(process.env.MONGO_URI)
         cookie: {
           secure: isProd,
           httpOnly: true,
-          // sameSite: isProd ? "lax" : "strict",
-          sameSite: "none",
+          sameSite: isProd ? "lax" : "strict",
+          // sameSite: "none",
+          // sameSite: isProd ? "none" : "lax",
           maxAge: 1000 * 60 * 60 * 24, // expires 24 hours
         },
       })
