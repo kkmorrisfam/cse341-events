@@ -40,7 +40,8 @@ try {
 
   const response = await Vendor.insertOne(vendor);
   if(response) {
-    res.status(201).json(response);
+    res.data = "Vendor created";
+    res.status(201).json("Vendor created");
   } else {
     const errorMsg = response?.error || "Failed to create vendor: An error occurred while creating the vendor.";
     res.status(500).json({ error: errorMsg });
@@ -61,19 +62,21 @@ const updateVendor = async (req, res) => {
       contactEmail: req.body.contactEmail,
       contactPhone: req.body.contactPhone,
       website: req.body.website,
-      rating: req.body.rating,
-    }
+      rating: req.body.rating
+    };
+
     console.log("Updating vendor with:", vendor);
 
     const response = await Vendor.replaceOne({ _id: vendorId }, vendor);
 
-    if (response && response.modifiedCount > 0) {
-      res.statusCode = 204;
+    console.log("response from update:", response);
+    if (response.modifiedCount > 0) {
       res.data = "Vendor updated";
+      res.status(201).json("Vendor updated");
     } else {
       console.warn("No vendor updated:", response);
-      res.statusCode = 204;
       res.data = "No changes made";
+      res.status(204).json("No changes made");
     }
   } catch (error) {
     console.error("Update vendor caught error:", error);
