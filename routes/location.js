@@ -8,20 +8,20 @@ router.get("/", locationController.getAll);
 router.get("/:id", locationController.getSingle);
 router.post(
   "/",
-  //isAuthenticated,
+  isAuthenticated,
   createValidationRules(),
   validation,
   locationController.createLocation
 );
 router.put(
   "/:id",
-  //isAuthenticated,
+  isAuthenticated,
   createValidationRules(),
   validation,
   locationController.updateLocation
 );
 router.delete("/:id", 
-  /*isAuthenticated,**/
+  isAuthenticated,
   locationController.deleteLocation);
 
 module.exports = router;
